@@ -1,0 +1,5 @@
+This project is a simple helper that allows me to easily create releases of
+my ruby on rails projects for deployment onto production servers.
+
+I would use Capybara but that doesn't seem to want to work for me at the
+moment.
