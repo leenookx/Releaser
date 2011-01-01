@@ -4,10 +4,8 @@ APP_NAME=$1
 
 TMP_DIR=tmp_dir
 
-if [ ! -e $APP_NAME/$TMP_DIR ]
+if [ -e $APP_NAME/$TMP_DIR ]
 then
-  mkdir -p $APP_NAME/$TMP_DIR
-else
   rm -rf $APP_NAME/$TMP_DIR
 fi
 
@@ -31,11 +29,6 @@ echo "</pre>" >> app/views/home/version.html.erb
 echo "<p>" >> app/views/home/version.html.erb
 echo "</div>" >> app/views/home/version.html.erb
 
-mv config/environment.rb.live config/environment.rb
-mv public/dispatch.fcgi.live public/dispatch.fcgi
-mv script/worker.live script/worker
-mv config/mail_fetcher.yml.live config/mail_fetcher.yml
-
 # Ensure that we mark all puts statements in the ruby code
 # as comments. This is because the production systems
 # tend to throw errors if they encounter these kind of
@@ -52,6 +45,9 @@ for FILE in $FILES
 do
   rm -rf ${FILE}
 done
+
+# Finally, apply any specific project configuration files.
+cp -r ~/my_codaset/projectconfigs/${APP_NAME}/* .
 
 cd ..
 
