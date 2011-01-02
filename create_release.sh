@@ -4,7 +4,7 @@ APP_NAME=$1
 
 TMP_DIR=tmp_dir
 
-if [ -e $APP_NAME/$TMP_DIR ]
+if [ -d "$APP_NAME/$TMP_DIR" ]
 then
   rm -rf $APP_NAME/$TMP_DIR
 fi
@@ -48,6 +48,10 @@ done
 
 # Finally, apply any specific project configuration files.
 cp -r ~/my_codaset/projectconfigs/${APP_NAME}/* .
+
+mv app/controllers/application_controller.rb app/controllers/application.rb
+secret=`date | md5sum | cut -d' ' -f1`
+sed -i "s/abc123/$secret/" app/controllers/application.rb
 
 cd ..
 
